@@ -1,0 +1,53 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#grid-container {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-gap: 2px;
+    margin-bottom: 20px;
+}
+
+.grid-cell {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+#controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#digit-status-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#digit-status-selector .digit-status {
+    display: flex;
+    align-items: center;
+}
+
+#digit-status-selector .digit-status input[type='radio'] {
+    margin-right: 5px;
+}
+
+#digit-status-selector .digit-status .required {
+    color: green;
+}
+
+#digit-status-selector .digit-status .prohibited {
+    color: red;
+}
+
+#digit-status-selector .digit-status .available {
+    color: blue;
+}
+
+button {
+    padding: 10px;
+}
