@@ -45,6 +45,9 @@
     .selected {
       background-color: lightgreen;
     }
+    .cell-in-cage {
+      background-color: green;
+    }
   </style>
 </head>
 <body>
@@ -59,13 +62,33 @@
       const [selectedCage, setSelectedCage] = useState(null);
 
       const addCage = () => {
-        const newCage = { id: cages.length + 1, sum: '' };
+        const newCage = { id: cages.length + 1, sum: '', cells: [] };
         setCages([...cages, newCage]);
         setSelectedCage(newCage.id);
       };
 
       const selectCage = (id) => {
         setSelectedCage(id);
+      };
+
+      const toggleCellInCage = (i, j) => {
+        const cageIndex = cages.findIndex(cage => cage.id === selectedCage);
+        if (cageIndex === -1) return;
+
+        const cellIndex = cages[cageIndex].cells.findIndex(cell => cell[0] === i && cell[1] === j);
+        let newCages = [...cages];
+        if (cellIndex === -1) {
+          newCages[cageIndex].cells.push([i, j]);
+        } else {
+          newCages[cageIndex].cells.splice(cellIndex, 1);
+        }
+        setCages(newCages);
+      };
+
+      const isCellInCage = (i, j) => {
+        const cageIndex = cages.findIndex(cage => cage.id === selectedCage);
+        if (cageIndex === -1) return false;
+        return cages[cageIndex].cells.some(cell => cell[0] === i && cell[1] === j);
       };
 
       return (
@@ -76,7 +99,7 @@
                 {board.map((row, i) => (
                   <tr key={i} className="row">
                     {row.map((cell, j) => (
-                      <td key={j} className="cell">
+                      <td key={j} className={`cell ${isCellInCage(i, j) ? 'cell-in-cage' : ''}`} onClick={() => toggleCellInCage(i, j)}>
                         {cell}
                       </td>
                     ))}
