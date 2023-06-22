@@ -1,6 +1,7 @@
 # sudokucalc
 
-This was created entirely by AGI Jr, using the following prompts (shown wth their replies) in this order:
+This was created entirely by AGI Jr, using the following prompts (shown wth their replies) in this order.  With the exception
+of the first request, each exchange is captured in single commit in the repo.
 
 - Hi.  Please create a simple index.html file that references React from a CDN and for now just draws an empty sudoku board.
   - I have created the `index.html` file. It includes a simple Sudoku board rendered using React. The board is currently empty.
