@@ -23,5 +23,5 @@ of the first request, each exchange is captured in single commit in the repo.
 New session:
 - Please update index.html to draw a border around each of the cage input boxes.  And then keep track of the current selected cage input box.  Whenever a cage input box is added it should become the currently selected cage input box.   If the user clicks on a cage input box (outside of it's input field) it should become the currently selected cage input.  There should only be one currently selected cage input at a time. The currently selected cage input should have a light green background (and the non-selected cage inputs should stay white).
   - I have updated the `index.html` file as per your request. Now, each cage input box has a border around it. Whenever a new cage input box is added, it becomes the currently selected cage input box. If a user clicks on a cage input box (outside of its input field), it becomes the currently selected cage input. Only one cage input can be selected at a time. The currently selected cage input has a light green background, while the non-selected cage inputs have a white background.
-
+- Great, now can you add a minimum width so that the full "cage sum" label is always visible?  Right now it's getting cut off at "cag".
 
