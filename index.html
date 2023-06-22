@@ -51,6 +51,9 @@
     .conflict {
       background-color: red;
     }
+    .rendered {
+      background-color: gray;
+    }
   </style>
 </head>
 <body>
@@ -63,6 +66,7 @@
       const [board, setBoard] = useState(Array(9).fill().map(() => Array(9).fill(null)));
       const [cages, setCages] = useState([]);
       const [selectedCage, setSelectedCage] = useState(null);
+      const [rendered, setRendered] = useState(false);
 
       const addCage = () => {
         const newCage = { id: cages.length + 1, sum: '', cells: [] };
@@ -98,6 +102,23 @@
         return cages.some(cage => cage.id !== selectedCage && cage.cells.some(cell => cell[0] === i && cell[1] === j));
       };
 
+      const isCellInAnyCage = (i, j) => {
+        return cages.some(cage => cage.cells.some(cell => cell[0] === i && cell[1] === j));
+      };
+
+      const renderBoard = () => {
+        const overlap = cages.some((cage, i) => {
+          return cages.slice(i + 1).some(otherCage => {
+            return cage.cells.some(cell => otherCage.cells.some(otherCell => cell[0] === otherCell[0] && cell[1] === otherCell[1]));
+          });
+        });
+        if (overlap) {
+          alert('There are overlapping cells, please fix this before rendering.');
+        } else {
+          setRendered(true);
+        }
+      };
+
       return (
         <div className="container">
           <div className="board-container">
@@ -115,6 +136,7 @@
               </tbody>
             </table>
             <button onClick={addCage}>Add a Cage</button>
+            <button onClick={renderBoard}>Render board</button>
           </div>
           <div className="cage-list">
             {cages.map((cage, i) => (
@@ -128,6 +150,21 @@
               </div>
             ))}
           </div>
+          {rendered && (
+            <div className="board-container">
+              <table>
+                <tbody>
+                  {board.map((row, i) => (
+                    <tr key={i} className="row">
+                      {row.map((cell, j) => (
+                        <td key={j} className={`cell ${isCellInAnyCage(i, j) ? 'rendered' : ''}`}>{cell}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       );
     }
