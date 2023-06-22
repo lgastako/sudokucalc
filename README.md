@@ -26,4 +26,16 @@ New session:
 - Great, now can you add a minimum width so that the full "cage sum" label is always visible?  Right now it's getting cut off at "cag".
   - I have updated the `index.html` file to include a minimum width for the cage input boxes. Now, the full "cage sum" label should always be visible and not get cut off.
 - Hmm, that didn't work.  I think maybe it needs to be on the input field within the diiv?
+  - I have updated the `index.html` file to include a minimum width for the input field within the cage input boxes. Now, the full "cage sum" label should always be visible and not get cut off.
+- Ok, that worked.  Thanks.  Now can you make it so that when you click a cell in the sudoku board it adds it to the currently selected cage's list of cells.  The cells that are in the currently selected cage's list of cells should have a green background while that cage is selected.  Clicking a cell that is already in the currently selected cage's list of cells should remove it from that cage's list of cells.
+  - I have updated the `index.html` file as per your request. Now, when you click a cell in the Sudoku board, it gets added to the currently selected cage's list of cells. The cells that are in the currently selected cage's list of cells have a green background while that cage is selected. Clicking a cell that is already in the currently selected cage's list of cells removes it from that cage's list of cells.
+- > Perfect.  Now please make the green for the selected cells lighter and give all the cells that are in non-selected cages a light gray background.  If the user adds a cell to the current cage that is already in another cage it should be red instead of green.
+
+*CRASH*
+
+New session:
+- Please update index.html to make the green for the selected cells in the current cage lighter and give all the cells that are in non-selected cages a light gray background.  If the user adds a cell to the current cage that is already in another cage it should be red instead of green.
+  - I have updated the `index.html` file as per your request. Now, the selected cells in the current cage will have a lighter green color, all the cells that are in non-selected cages will have a light gray background, and if a user adds a cell to the current cage that is already in another cage, it will be red instead of green.
+- Perfect.  Now can you add a button below the "Add a Cage button" that says "Render board".  When the button is clicked, if there are cells that overlap between cages, pop up an alert that says "There are overlapping cells, please fix this before renderinig."  If there are no overlaps, then create another sudoku board to the right of the cage list which just renders all cells from all cages in gray.
+  - I have updated the `index.html` file as per your request. Now, there is a "Render board" button below the "Add a Cage" button. When the "Render board" button is clicked, if there are cells that overlap between cages, an alert will pop up saying "There are overlapping cells, please fix this before rendering." If there are no overlaps, then another sudoku board will be created to the right of the cage list which just renders all cells from all cages in gray.
 
