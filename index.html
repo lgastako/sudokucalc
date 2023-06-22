@@ -34,6 +34,14 @@
     .cage-list {
       margin-left: 20px;
     }
+    .cage-input {
+      border: 1px solid black;
+      margin: 5px 0;
+      padding: 5px;
+    }
+    .selected {
+      background-color: lightgreen;
+    }
   </style>
 </head>
 <body>
@@ -45,9 +53,16 @@
     function SudokuBoard() {
       const [board, setBoard] = useState(Array(9).fill().map(() => Array(9).fill(null)));
       const [cages, setCages] = useState([]);
+      const [selectedCage, setSelectedCage] = useState(null);
 
       const addCage = () => {
-        setCages([...cages, { id: cages.length + 1, sum: '' }]);
+        const newCage = { id: cages.length + 1, sum: '' };
+        setCages([...cages, newCage]);
+        setSelectedCage(newCage.id);
+      };
+
+      const selectCage = (id) => {
+        setSelectedCage(id);
       };
 
       return (
@@ -70,7 +85,7 @@
           </div>
           <div className="cage-list">
             {cages.map((cage, i) => (
-              <div key={i}>
+              <div key={i} className={`cage-input ${selectedCage === cage.id ? 'selected' : ''}`} onClick={() => selectCage(cage.id)}>
                 <label>Cage {cage.id}</label>
                 <input type="number" min="1" max="81" value={cage.sum} onChange={(e) => {
                   const newCages = [...cages];
