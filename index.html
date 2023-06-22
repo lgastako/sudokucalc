@@ -5,6 +5,26 @@
   <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <style>
+    .cell {
+      width: '1em';
+      height: '1em';
+      border: '1px solid black';
+      textAlign: 'center';
+    }
+    .cell:nth-child(3n) {
+      border-right: '2px solid black';
+    }
+    .cell:nth-child(9n) {
+      border-right: '3px solid black';
+    }
+    .row:nth-child(3n) .cell {
+      border-bottom: '2px solid black';
+    }
+    .row:nth-child(9n) .cell {
+      border-bottom: '3px solid black';
+    }
+  </style>
 </head>
 <body>
   <div id="root"></div>
@@ -19,9 +39,9 @@
         <table>
           <tbody>
             {board.map((row, i) => (
-              <tr key={i}>
+              <tr key={i} className="row">
                 {row.map((cell, j) => (
-                  <td key={j} style={{ width: '1em', height: '1em', border: '1px solid black', textAlign: 'center' }}>
+                  <td key={j} className="cell">
                     {cell}
                   </td>
                 ))}
