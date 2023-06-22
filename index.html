@@ -26,6 +26,7 @@
     }
     .container {
       display: flex;
+      flex-direction: column;
     }
     .cage-list {
       margin-left: 20px;
@@ -70,7 +71,7 @@
                   const newCages = [...cages];
                   newCages[i].sum = e.target.value;
                   setCages(newCages);
-                }} />
+                }} placeholder="cage sum" />
               </div>
             ))}
           </div>
