@@ -66,7 +66,7 @@
       const [board, setBoard] = useState(Array(9).fill().map(() => Array(9).fill(null)));
       const [cages, setCages] = useState([]);
       const [selectedCage, setSelectedCage] = useState(null);
-      const [renderedBoard, setRenderedBoard] = useState(null);
+      const [renderedCages, setRenderedCages] = useState(null);
 
       const addCage = () => {
         const newCage = { id: cages.length + 1, sum: '', cells: [] };
@@ -92,18 +92,18 @@
         setCages(newCages);
       };
 
-      const isCellInCage = (i, j) => {
-        const cageIndex = cages.findIndex(cage => cage.id === selectedCage);
+      const isCellInCage = (i, j, cagesToCheck = cages) => {
+        const cageIndex = cagesToCheck.findIndex(cage => cage.id === selectedCage);
         if (cageIndex === -1) return false;
-        return cages[cageIndex].cells.some(cell => cell[0] === i && cell[1] === j);
+        return cagesToCheck[cageIndex].cells.some(cell => cell[0] === i && cell[1] === j);
       };
 
-      const isCellInOtherCage = (i, j) => {
-        return cages.some(cage => cage.id !== selectedCage && cage.cells.some(cell => cell[0] === i && cell[1] === j));
+      const isCellInOtherCage = (i, j, cagesToCheck = cages) => {
+        return cagesToCheck.some(cage => cage.id !== selectedCage && cage.cells.some(cell => cell[0] === i && cell[1] === j));
       };
 
-      const isCellInAnyCage = (i, j) => {
-        return cages.some(cage => cage.cells.some(cell => cell[0] === i && cell[1] === j));
+      const isCellInAnyCage = (i, j, cagesToCheck = cages) => {
+        return cagesToCheck.some(cage => cage.cells.some(cell => cell[0] === i && cell[1] === j));
       };
 
       const renderBoard = () => {
@@ -115,7 +115,7 @@
         if (overlap) {
           alert('There are overlapping cells, please fix this before rendering.');
         } else {
-          setRenderedBoard(JSON.parse(JSON.stringify(board)));
+          setRenderedCages(JSON.parse(JSON.stringify(cages)));
         }
       };
 
@@ -150,14 +150,14 @@
               </div>
             ))}
           </div>
-          {renderedBoard && (
+          {renderedCages && (
             <div className="board-container">
               <table>
                 <tbody>
-                  {renderedBoard.map((row, i) => (
+                  {board.map((row, i) => (
                     <tr key={i} className="row">
                       {row.map((cell, j) => (
-                        <td key={j} className={`cell ${isCellInAnyCage(i, j) ? 'rendered' : ''}`}>{cell}</td>
+                        <td key={j} className={`cell ${isCellInAnyCage(i, j, renderedCages) ? 'rendered' : ''}`}>{cell}</td>
                       ))}
                     </tr>
                   ))}
