@@ -43,10 +43,13 @@
       min-width: 100px;
     }
     .selected {
-      background-color: lightgreen;
+      background-color: #90ee90;
     }
     .cell-in-cage {
-      background-color: green;
+      background-color: #d3d3d3;
+    }
+    .conflict {
+      background-color: red;
     }
   </style>
 </head>
@@ -91,6 +94,10 @@
         return cages[cageIndex].cells.some(cell => cell[0] === i && cell[1] === j);
       };
 
+      const isCellInOtherCage = (i, j) => {
+        return cages.some(cage => cage.id !== selectedCage && cage.cells.some(cell => cell[0] === i && cell[1] === j));
+      };
+
       return (
         <div className="container">
           <div className="board-container">
@@ -99,7 +106,7 @@
                 {board.map((row, i) => (
                   <tr key={i} className="row">
                     {row.map((cell, j) => (
-                      <td key={j} className={`cell ${isCellInCage(i, j) ? 'cell-in-cage' : ''}`} onClick={() => toggleCellInCage(i, j)}>
+                      <td key={j} className={`cell ${isCellInCage(i, j) ? 'selected' : isCellInOtherCage(i, j) ? 'cell-in-cage' : ''} ${isCellInCage(i, j) && isCellInOtherCage(i, j) ? 'conflict' : ''}`} onClick={() => toggleCellInCage(i, j)}>
                         {cell}
                       </td>
                     ))}
