@@ -26,6 +26,9 @@
     }
     .container {
       display: flex;
+    }
+    .board-container {
+      display: flex;
       flex-direction: column;
     }
     .cage-list {
@@ -49,20 +52,22 @@
 
       return (
         <div className="container">
-          <table>
-            <tbody>
-              {board.map((row, i) => (
-                <tr key={i} className="row">
-                  {row.map((cell, j) => (
-                    <td key={j} className="cell">
-                      {cell}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <button onClick={addCage}>Add a Cage</button>
+          <div className="board-container">
+            <table>
+              <tbody>
+                {board.map((row, i) => (
+                  <tr key={i} className="row">
+                    {row.map((cell, j) => (
+                      <td key={j} className="cell">
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <button onClick={addCage}>Add a Cage</button>
+          </div>
           <div className="cage-list">
             {cages.map((cage, i) => (
               <div key={i}>
