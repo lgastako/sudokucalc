@@ -54,6 +54,17 @@
     .rendered {
       background-color: gray;
     }
+    .available {
+      color: green;
+    }
+    .required {
+      color: blue;
+      font-weight: bold;
+      text-decoration: line-through;
+    }
+    .forbidden {
+      color: red;
+    }
   </style>
 </head>
 <body>
@@ -63,7 +74,7 @@
     const { useState } = React;
 
     function SudokuBoard() {
-      const [board, setBoard] = useState(Array(9).fill().map(() => Array(9).fill(null)));
+      const [board, setBoard] = useState(Array(9).fill().map(() => Array(9).fill({ mode: 'available', value: [1, 2, 3, 4, 5, 6, 7, 8, 9] })));
       const [cages, setCages] = useState([]);
       const [selectedCage, setSelectedCage] = useState(null);
       const [renderedCages, setRenderedCages] = useState(null);
@@ -119,6 +130,23 @@
         }
       };
 
+      const toggleMode = (i, j, value) => {
+        let newBoard = [...board];
+        let cell = newBoard[i][j];
+        if (cell.mode === 'available') {
+          cell.mode = 'required';
+          cell.value = cell.value.map(v => v === value ? v : `-${v}`);
+        } else if (cell.mode === 'required') {
+          cell.mode = 'forbidden';
+          cell.value = cell.value.map(v => v === value ? `-${v}` : v);
+        } else {
+          cell.mode = 'available';
+          cell.value = cell.value.map(v => v === value ? v : v.replace('-', ''));
+        }
+        newBoard[i][j] = cell;
+        setBoard(newBoard);
+      };
+
       return (
         <div className="container">
           <div className="board-container">
@@ -128,7 +156,9 @@
                   <tr key={i} className="row">
                     {row.map((cell, j) => (
                       <td key={j} className={`cell ${isCellInCage(i, j) ? 'selected' : isCellInOtherCage(i, j) ? 'cell-in-cage' : ''} ${isCellInCage(i, j) && isCellInOtherCage(i, j) ? 'conflict' : ''}`} onClick={() => toggleCellInCage(i, j)}>
-                        {cell}
+                        {cell.value.map((value, index) => (
+                          <span key={index} className={cell.mode} onClick={() => toggleMode(i, j, value)}>{value}</span>
+                        ))}
                       </td>
                     ))}
                   </tr>
