@@ -138,13 +138,10 @@
         if (index !== -1) {
           if (cell.mode[index] === 'available') {
             cell.mode[index] = 'required';
-            cell.value[index] = cell.value[index].map(v => v === value ? v : `-${v}`);
           } else if (cell.mode[index] === 'required') {
             cell.mode[index] = 'forbidden';
-            cell.value[index] = cell.value[index].map(v => v === value ? `-${v}` : v);
           } else {
             cell.mode[index] = 'available';
-            cell.value[index] = cell.value[index].map(v => v === value ? v : v.replace('-', ''));
           }
         }
         newToggleBoard[i][j] = cell;
