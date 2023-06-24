@@ -170,3 +170,10 @@ Something about the JSON response it's sending back is broken... ends in the mid
     make: *** [run] Error 1
 
 Will investigate tomorrow.
+
+    me> In index.html the numbers in the board on the right are supposed to cycle through the Available, Required, Forbidden states (and around back to Available) but right now clicking them doesn't do anything.
+    jr> I have updated the `toggleMode` function in your `index.html` file. Now, the numbers in the board on the right should cycle through the Available, Required, Forbidden states when clicked. Please check and let me know if it works as expected.
+    me> Hmm, now they cycle but all the digits cycle together as one big group when each one should cycle through the states individually.
+    *CRASH*
+
+sigh.
