@@ -74,10 +74,11 @@
     const { useState } = React;
 
     function SudokuBoard() {
-      const [board, setBoard] = useState(Array(9).fill().map(() => Array(9).fill({ mode: 'available', value: [1, 2, 3, 4, 5, 6, 7, 8, 9] })));
+      const [board, setBoard] = useState(Array(9).fill().map(() => Array(9).fill(null)));
       const [cages, setCages] = useState([]);
       const [selectedCage, setSelectedCage] = useState(null);
       const [renderedCages, setRenderedCages] = useState(null);
+      const [toggleBoard, setToggleBoard] = useState(Array(9).fill().map(() => Array(9).fill({ mode: 'available', value: [1, 2, 3, 4, 5, 6, 7, 8, 9] })));
 
       const addCage = () => {
         const newCage = { id: cages.length + 1, sum: '', cells: [] };
@@ -131,8 +132,8 @@
       };
 
       const toggleMode = (i, j, value) => {
-        let newBoard = [...board];
-        let cell = newBoard[i][j];
+        let newToggleBoard = [...toggleBoard];
+        let cell = newToggleBoard[i][j];
         if (cell.mode === 'available') {
           cell.mode = 'required';
           cell.value = cell.value.map(v => v === value ? v : `-${v}`);
@@ -143,8 +144,8 @@
           cell.mode = 'available';
           cell.value = cell.value.map(v => v === value ? v : v.replace('-', ''));
         }
-        newBoard[i][j] = cell;
-        setBoard(newBoard);
+        newToggleBoard[i][j] = cell;
+        setToggleBoard(newToggleBoard);
       };
 
       return (
@@ -156,9 +157,7 @@
                   <tr key={i} className="row">
                     {row.map((cell, j) => (
                       <td key={j} className={`cell ${isCellInCage(i, j) ? 'selected' : isCellInOtherCage(i, j) ? 'cell-in-cage' : ''} ${isCellInCage(i, j) && isCellInOtherCage(i, j) ? 'conflict' : ''}`} onClick={() => toggleCellInCage(i, j)}>
-                        {cell.value.map((value, index) => (
-                          <span key={index} className={cell.mode} onClick={() => toggleMode(i, j, value)}>{value}</span>
-                        ))}
+                        {cell}
                       </td>
                     ))}
                   </tr>
@@ -184,10 +183,12 @@
             <div className="board-container">
               <table>
                 <tbody>
-                  {board.map((row, i) => (
+                  {toggleBoard.map((row, i) => (
                     <tr key={i} className="row">
                       {row.map((cell, j) => (
-                        <td key={j} className={`cell ${isCellInAnyCage(i, j, renderedCages) ? 'rendered' : ''}`}>{cell}</td>
+                        <td key={j} className={`cell ${isCellInAnyCage(i, j, renderedCages) ? 'rendered' : ''}`}>{cell.value.map((value, index) => (
+                          <span key={index} className={cell.mode} onClick={() => toggleMode(i, j, value)}>{value}</span>
+                        ))}</td>
                       ))}
                     </tr>
                   ))}
