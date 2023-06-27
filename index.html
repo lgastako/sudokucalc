@@ -78,7 +78,7 @@
       const [cages, setCages] = useState([]);
       const [selectedCage, setSelectedCage] = useState(null);
       const [renderedCages, setRenderedCages] = useState(null);
-      const [toggleBoard, setToggleBoard] = useState(Array(9).fill().map(() => Array(9).fill({ mode: 'available', value: [1, 2, 3, 4, 5, 6, 7, 8, 9] })));
+      const [toggleBoard, setToggleBoard] = useState(Array(9).fill().map(() => Array(9).fill({ mode: Array(9).fill('available'), value: [1, 2, 3, 4, 5, 6, 7, 8, 9] })));
 
       const addCage = () => {
         const newCage = { id: cages.length + 1, sum: '', cells: [] };
@@ -143,12 +143,12 @@
         let cell = newToggleBoard[i][j];
         let index = cell.value.indexOf(value);
         if (index !== -1) {
-          if (cell.mode === 'available') {
-            cell.mode = 'required';
-          } else if (cell.mode === 'required') {
-            cell.mode = 'forbidden';
+          if (cell.mode[index] === 'available') {
+            cell.mode[index] = 'required';
+          } else if (cell.mode[index] === 'required') {
+            cell.mode[index] = 'forbidden';
           } else {
-            cell.mode = 'available';
+            cell.mode[index] = 'available';
           }
           newToggleBoard[i][j] = cell;
         }
@@ -195,7 +195,7 @@
                     <tr key={i} className="row">
                       {row.map((cell, j) => (
                         <td key={j} className={`cell ${isCellInAnyCage(i, j, renderedCages) ? 'rendered' : ''}`}>{cell.value.map((value, index) => (
-                          <span key={index} className={cell.mode} onClick={() => toggleMode(i, j, value)}>{value}</span>
+                          <span key={index} className={cell.mode[index]} onClick={() => toggleMode(i, j, value)}>{value}</span>
                         ))}</td>
                       ))}
                     </tr>
