@@ -143,7 +143,13 @@
         let cell = newToggleBoard[i][j];
         let index = cell.value.indexOf(value);
         if (index !== -1) {
-          cell.value[index] = { number: value, mode: cell.mode === 'available' ? 'required' : cell.mode === 'required' ? 'forbidden' : 'available' };
+          if (cell.mode === 'available') {
+            cell.mode = 'required';
+          } else if (cell.mode === 'required') {
+            cell.mode = 'forbidden';
+          } else {
+            cell.mode = 'available';
+          }
           newToggleBoard[i][j] = cell;
         }
         setToggleBoard(newToggleBoard);
@@ -189,7 +195,7 @@
                     <tr key={i} className="row">
                       {row.map((cell, j) => (
                         <td key={j} className={`cell ${isCellInAnyCage(i, j, renderedCages) ? 'rendered' : ''}`}>{cell.value.map((value, index) => (
-                          <span key={index} className={value.mode} onClick={() => toggleMode(i, j, value.number)}>{value.number}</span>
+                          <span key={index} className={cell.mode} onClick={() => toggleMode(i, j, value)}>{value}</span>
                         ))}</td>
                       ))}
                     </tr>
