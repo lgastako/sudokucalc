@@ -231,16 +231,16 @@
                   ))}
                 </tbody>
               </table>
+              <div className="cage-possibilities">
+                {cages.map((cage, i) => (
+                  <div key={i}>
+                    <h3>Cage {cage.id} Possibilities</h3>
+                    <p>{JSON.stringify(generateCagePossibilities(cage))}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
-          <div className="cage-possibilities">
-            {cages.map((cage, i) => (
-              <div key={i}>
-                <h3>Cage {cage.id} Possibilities</h3>
-                <p>{JSON.stringify(generateCagePossibilities(cage))}</p>
-              </div>
-            ))}
-          </div>
         </div>
       );
     }
