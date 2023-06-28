@@ -163,6 +163,27 @@
         setToggleBoard(newToggleBoard);
       };
 
+      const generateCagePossibilities = (cage) => {
+        const possibilities = [];
+        const generate = (index, current) => {
+          if (index === cage.cells.length) {
+            possibilities.push([...current]);
+            return;
+          }
+          const [i, j] = cage.cells[index];
+          const cell = toggleBoard[i][j];
+          for (let k = 0; k < cell.value.length; k++) {
+            if (cell.mode[k] !== 'forbidden') {
+              current.push(cell.value[k]);
+              generate(index + 1, current);
+              current.pop();
+            }
+          }
+        };
+        generate(0, []);
+        return possibilities;
+      };
+
       return (
         <div className="container">
           <div className="board-container">
@@ -216,7 +237,7 @@
             {cages.map((cage, i) => (
               <div key={i}>
                 <h3>Cage {cage.id} Possibilities</h3>
-                <p>...</p>
+                <p>{JSON.stringify(generateCagePossibilities(cage))}</p>
               </div>
             ))}
           </div>
