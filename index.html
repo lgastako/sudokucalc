@@ -167,7 +167,10 @@
         const possibilities = [];
         const generate = (index, current) => {
           if (index === cage.cells.length) {
-            possibilities.push([...current]);
+            if (current.every((value, i) => toggleBoard[cage.cells[i][0]][cage.cells[i][1]].mode[toggleBoard[cage.cells[i][0]][cage.cells[i][1]].value.indexOf(value)] !== 'forbidden') &&
+                current.filter((value, i) => toggleBoard[cage.cells[i][0]][cage.cells[i][1]].mode[toggleBoard[cage.cells[i][0]][cage.cells[i][1]].value.indexOf(value)] === 'required').length === current.length) {
+              possibilities.push([...current]);
+            }
             return;
           }
           const [i, j] = cage.cells[index];
