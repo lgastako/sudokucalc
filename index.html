@@ -65,6 +65,14 @@
       color: red;
       text-decoration: line-through;
     }
+    .cage-possibilities {
+      margin-top: 20px;
+      border: 1px solid black;
+      padding: 10px;
+    }
+    .cage-possibilities h3 {
+      margin-top: 0;
+    }
   </style>
 </head>
 <body>
@@ -204,6 +212,14 @@
               </table>
             </div>
           )}
+          <div className="cage-possibilities">
+            {cages.map((cage, i) => (
+              <div key={i}>
+                <h3>Cage {cage.id} Possibilities</h3>
+                <p>...</p>
+              </div>
+            ))}
+          </div>
         </div>
       );
     }
