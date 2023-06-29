@@ -175,14 +175,6 @@
                 (cell.mode[modeIndex] === 'required' && modeIndex === current.indexOf(value)) ||
                 (cell.mode[modeIndex] === 'available')
               );
-            }) && current.every((value, i) => {
-              const [row, col] = cage.cells[i];
-              const cell = toggleBoard[row][col];
-              const modeIndex = cell.value.indexOf(value);
-              return (
-                (cell.mode[modeIndex] !== 'required' || modeIndex === current.indexOf(value)) ||
-                (cell.mode[modeIndex] === 'required' && modeIndex !== current.indexOf(value))
-              );
             })) {
               possibilities.push([...current]);
             }
