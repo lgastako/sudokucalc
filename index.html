@@ -164,34 +164,37 @@
       };
 
       const generateCagePossibilities = (cage) => {
-        const possibilities = [];
+        const allPossibilities = [];
         const generate = (index, current) => {
           if (index === cage.cells.length) {
-            if (current.every((value, i) => {
-              const [row, col] = cage.cells[i];
-              const cell = toggleBoard[row][col];
-              const modeIndex = cell.value.indexOf(value);
-              return (
-                (cell.mode[modeIndex] === 'required' && modeIndex === current.indexOf(value)) ||
-                (cell.mode[modeIndex] === 'available')
-              );
-            })) {
-              possibilities.push([...current]);
-            }
+            allPossibilities.push([...current]);
             return;
           }
           const [i, j] = cage.cells[index];
           const cell = toggleBoard[i][j];
           for (let k = 0; k < cell.value.length; k++) {
-            if (cell.mode[k] === 'required' || cell.mode[k] === 'available') {
-              current.push(cell.value[k]);
-              generate(index + 1, current);
-              current.pop();
-            }
+            current.push(cell.value[k]);
+            generate(index + 1, current);
+            current.pop();
           }
         };
         generate(0, []);
-        return possibilities;
+
+        const filteredPossibilities = allPossibilities
+          .filter(current => current.every((value, i) => {
+            const [row, col] = cage.cells[i];
+            const cell = toggleBoard[row][col];
+            const modeIndex = cell.value.indexOf(value);
+            return cell.mode[modeIndex] !== 'forbidden';
+          }))
+          .filter(current => current.every((value, i) => {
+            const [row, col] = cage.cells[i];
+            const cell = toggleBoard[row][col];
+            const modeIndex = cell.value.indexOf(value);
+            return (cell.mode[modeIndex] === 'required' && modeIndex === current.indexOf(value)) || cell.mode[modeIndex] === 'available';
+          }));
+
+        return filteredPossibilities;
       };
 
       return (
