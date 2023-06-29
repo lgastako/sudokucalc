@@ -187,8 +187,7 @@
             const modeIndex = cell.value.indexOf(value);
             return cell.mode[modeIndex] !== 'forbidden';
           }))
-          .filter(current => {
-            const [row, col] = cage.cells[0];
+          .filter(current => cage.cells.every(([row, col]) => {
             const cell = toggleBoard[row][col];
             return cell.value.every((value, modeIndex) => {
               if (cell.mode[modeIndex] === 'required') {
@@ -196,70 +195,70 @@
               }
               return true;
             });
-          });
+          }));
 
         return filteredPossibilities;
       };
 
-      return (
-        <div className="container">
-          <div className="board-container">
-            <table>
-              <tbody>
-                {board.map((row, i) => (
-                  <tr key={i} className="row">
-                    {row.map((cell, j) => (
-                      <td key={j} className={`cell ${isCellInCage(i, j) ? 'selected' : isCellInOtherCage(i, j) ? 'cell-in-cage' : ''} ${isCellInCage(i, j) && isCellInOtherCage(i, j) ? 'conflict' : ''}`} onClick={() => toggleCellInCage(i, j)}>
-                        {cell}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <button onClick={addCage}>Add a Cage</button>
-            <button onClick={renderBoard}>Render board</button>
-          </div>
-          <div className="cage-list">
-            {cages.map((cage, i) => (
-              <div key={i} className={`cage-input ${selectedCage === cage.id ? 'selected' : ''}`} onClick={() => selectCage(cage.id)}>
-                <label>Cage {cage.id}</label>
-                <input type="number" min="1" max="81" value={cage.sum} onChange={(e) => {
-                  const newCages = [...cages];
-                  newCages[i].sum = e.target.value;
-                  setCages(newCages);
-                }} placeholder="cage sum" />
-                <button onClick={(e) => {e.stopPropagation(); removeCage(cage.id);}}>X</button>
-              </div>
-            ))}
-          </div>
-          {renderedCages && (
-            <div className="board-container">
-              <table>
-                <tbody>
-                  {toggleBoard.map((row, i) => (
-                    <tr key={i} className="row">
-                      {row.map((cell, j) => (
-                        <td key={j} className={`cell ${isCellInAnyCage(i, j, renderedCages) ? 'rendered' : ''}`}>{cell.value.map((value, index) => (
-                          <span key={index} className={cell.mode[index]} onClick={() => toggleMode(i, j, value)}>{value}</span>
-                        ))}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="cage-possibilities">
-                {cages.map((cage, i) => (
-                  <div key={i}>
-                    <h3>Cage {cage.id} Possibilities</h3>
-                    <p>{JSON.stringify(generateCagePossibilities(cage))}</p>
-                  </div>
-                ))}
-              </div>
+        return (
+            <div className="container">
+                <div className="board-container">
+                    <table>
+                        <tbody>
+                            {board.map((row, i) => (
+                                <tr key={i} className="row">
+                                    {row.map((cell, j) => (
+                                        <td key={j} className={`cell ${isCellInCage(i, j) ? 'selected' : isCellInOtherCage(i, j) ? 'cell-in-cage' : ''} ${isCellInCage(i, j) && isCellInOtherCage(i, j) ? 'conflict' : ''}`} onClick={() => toggleCellInCage(i, j)}>
+                                            {cell}
+                                        </td>
+                                     ))}
+                                </tr>
+                             ))}
+                        </tbody>
+                    </table>
+                    <button onClick={addCage}>Add a Cage</button>
+                    <button onClick={renderBoard}>Render board</button>
+                </div>
+                <div className="cage-list">
+                    {cages.map((cage, i) => (
+                        <div key={i} className={`cage-input ${selectedCage === cage.id ? 'selected' : ''}`} onClick={() => selectCage(cage.id)}>
+                            <label>Cage {cage.id}</label>
+                            <input type="number" min="1" max="81" value={cage.sum} onChange={(e) => {
+                                 const newCages = [...cages];
+                                 newCages[i].sum = e.target.value;
+                                 setCages(newCages);
+                             }} placeholder="cage sum" />
+                            <button onClick={(e) => {e.stopPropagation(); removeCage(cage.id);}}>X</button>
+                        </div>
+                     ))}
+                </div>
+                {renderedCages && (
+                     <div className="board-container">
+                         <table>
+                             <tbody>
+                                 {toggleBoard.map((row, i) => (
+                                     <tr key={i} className="row">
+                                         {row.map((cell, j) => (
+                                             <td key={j} className={`cell ${isCellInAnyCage(i, j, renderedCages) ? 'rendered' : ''}`}>{cell.value.map((value, index) => (
+                                                  <span key={index} className={cell.mode[index]} onClick={() => toggleMode(i, j, value)}>{value}</span>
+                                                  ))}</td>
+                                          ))}
+                                     </tr>
+                                  ))}
+                             </tbody>
+                         </table>
+                         <div className="cage-possibilities">
+                             {cages.map((cage, i) => (
+                                 <div key={i}>
+                                     <h3>Cage {cage.id} Possibilities</h3>
+                                     <p>{JSON.stringify(generateCagePossibilities(cage))}</p>
+                                 </div>
+                              ))}
+                         </div>
+                     </div>
+                 )}
             </div>
-          )}
-        </div>
-      );
+        );
     }
 
     ReactDOM.render(<SudokuBoard />, document.getElementById('root'));
