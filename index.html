@@ -187,12 +187,16 @@
             const modeIndex = cell.value.indexOf(value);
             return cell.mode[modeIndex] !== 'forbidden';
           }))
-          .filter(current => current.every((value, i) => {
-            const [row, col] = cage.cells[i];
+          .filter(current => {
+            const [row, col] = cage.cells[0];
             const cell = toggleBoard[row][col];
-            const modeIndex = cell.value.indexOf(value);
-            return (cell.mode[modeIndex] === 'required' && modeIndex === current.indexOf(value)) || cell.mode[modeIndex] === 'available';
-          }));
+            return cell.value.every((value, modeIndex) => {
+              if (cell.mode[modeIndex] === 'required') {
+                return current.includes(value);
+              }
+              return true;
+            });
+          });
 
         return filteredPossibilities;
       };
