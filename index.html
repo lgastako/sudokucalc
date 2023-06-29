@@ -187,11 +187,11 @@
             const modeIndex = cell.value.indexOf(value);
             return cell.mode[modeIndex] !== 'forbidden';
           }))
-          .filter(current => cage.cells.every(([row, col]) => {
+          .filter(current => cage.cells.every(([row, col], i) => {
             const cell = toggleBoard[row][col];
             return cell.value.every((value, modeIndex) => {
               if (cell.mode[modeIndex] === 'required') {
-                return current.includes(value);
+                return current[i] === value;
               }
               return true;
             });
