@@ -175,7 +175,7 @@
           const [i, j] = cage.cells[index];
           const cell = toggleBoard[i][j];
           for (let k = 0; k < cell.value.length; k++) {
-            if (cell.mode[k] !== 'forbidden') {
+            if (cell.mode[k] === 'required' || cell.mode[k] === 'available') {
               current.push(cell.value[k]);
               generate(index + 1, current);
               current.pop();
