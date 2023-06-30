@@ -211,7 +211,22 @@
               return true;
             });
           }))
-          .filter(current => current.reduce((a, b) => a + b, 0) == cage.sum);
+          .filter(current => current.reduce((a, b) => a + b, 0) == cage.sum)
+          .filter(current => {
+            let rowSet = new Set();
+            let colSet = new Set();
+            let boxSet = new Set();
+            for (let i = 0; i < current.length; i++) {
+              let [row, col] = cage.cells[i];
+              if (rowSet.has(current[i]) || colSet.has(current[i]) || boxSet.has(current[i])) {
+                return false;
+              }
+              rowSet.add(current[i]);
+              colSet.add(current[i]);
+              boxSet.add(current[i]);
+            }
+            return true;
+          });
 
         return filteredPossibilities;
       };
