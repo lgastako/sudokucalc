@@ -210,7 +210,8 @@
               }
               return true;
             });
-          }));
+          }))
+          .filter(current => current.reduce((a, b) => a + b, 0) == cage.sum);
 
         return filteredPossibilities;
       };
@@ -273,7 +274,7 @@
                                                     </div>
                                                 </div>
                                              </td>
-                                          ))}
+                                          }))}
                                      </tr>
                                   ))}
                              </tbody>
