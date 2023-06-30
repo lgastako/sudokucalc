@@ -256,11 +256,21 @@
                                          {row.map((cell, j) => (
                                              <td key={j} className={`cell ${isCellInAnyCage(i, j, renderedCages) ? 'rendered' : ''}`}> 
                                                 <div className="cell-content">
-                                                    {cell.value.map((value, index) => (
-                                                        <div key={index} className="cell-row">
-                                                            <span className={cell.mode[index]} onClick={() => toggleMode(i, j, value)}>{value}</span>
-                                                        </div>
-                                                    ))}
+                                                    <div className="cell-row">
+                                                        {cell.value.slice(0, 3).map((value, index) => (
+                                                            <span key={index} className={cell.mode[index]} onClick={() => toggleMode(i, j, value)}>{value}</span>
+                                                        ))}
+                                                    </div>
+                                                    <div className="cell-row">
+                                                        {cell.value.slice(3, 6).map((value, index) => (
+                                                            <span key={index+3} className={cell.mode[index+3]} onClick={() => toggleMode(i, j, value)}>{value}</span>
+                                                        ))}
+                                                    </div>
+                                                    <div className="cell-row">
+                                                        {cell.value.slice(6, 9).map((value, index) => (
+                                                            <span key={index+6} className={cell.mode[index+6]} onClick={() => toggleMode(i, j, value)}>{value}</span>
+                                                        ))}
+                                                    </div>
                                                 </div>
                                              </td>
                                           ))}
